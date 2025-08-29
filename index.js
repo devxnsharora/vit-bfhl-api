@@ -1,3 +1,12 @@
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+
+const app = express();  
+app.use(bodyParser.json());
+app.use(cors());
+
+// POST route
 app.post("/bfhl", (req, res) => {
   try {
     const data = req.body.data || [];
@@ -26,7 +35,7 @@ app.post("/bfhl", (req, res) => {
 
     const responseObj = {
       is_success: true,
-      user_id: "devansh_arora_26012004", // <-- put your DOB
+      user_id: "devansh_arora_26012004", 
       email: "aroradevansh26@gmail.com",
       roll_number: "22BCE2187",
       odd_numbers: oddNumbers,
@@ -37,9 +46,14 @@ app.post("/bfhl", (req, res) => {
       concat_string: concatString
     };
 
-    // 👇 forces compact JSON output
-    res.status(200).send(JSON.stringify(responseObj));
+    res.status(200).json(responseObj);
   } catch (err) {
-    res.status(500).send(JSON.stringify({ is_success: false, error: err.message }));
+    res.status(500).json({ is_success: false, error: err.message });
   }
+});
+
+// listen for Render
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
